@@ -14,9 +14,12 @@ const CommentSchema = new mongoose.Schema({
             max : 100
         },
         depth : {
-            type : int,
+            type : Number,
             required : true,
-            default : 0
+            default : 0,
+        },
+        parentId : {
+            type : String
         }
     },
     { timestamps : true} 

@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 //REGISTER
 router.post("/register", async (request, response) => {
-    
+    console.log(request);
     try {
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(request.body.password, salt);
@@ -18,6 +18,7 @@ router.post("/register", async (request, response) => {
         const user = await newUser.save();
         response.status(200).json(user);
     } catch (error) {
+        console.log(error);
         response.status(500).json(error);
     }
 });

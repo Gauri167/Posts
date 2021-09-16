@@ -7,7 +7,8 @@ const morgan = require("morgan");
 const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
 const postRoute = require("./routes/post");
-
+const commentRoute = require("./routes/comment");
+const cors = require('cors')
 dotenv.config();
 
 mongoose.connect(process.env.MONGO_URL, {useNewUrlParser:true}, ()=>{
@@ -17,10 +18,12 @@ mongoose.connect(process.env.MONGO_URL, {useNewUrlParser:true}, ()=>{
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
+app.use(cors())
 
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
+app.use("/api/comments", commentRoute);
 
 app.listen(8800,()=>{
     console.log("backend is ready");

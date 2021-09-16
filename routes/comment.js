@@ -6,7 +6,14 @@ const Comment = require("../models/Comment");
 router.post("/comment", async (request, response) => {
 
     try {
-        const newComment = new Comment(request.body);
+        const newComment = await new Comment({
+            postId: request.body.postId,
+            userId : request.body.userId,
+            desc : request.body.desc,
+            depth: request.body.depth
+        });
+        if(request.body.parentId != "")
+            newComment.parentId = request.body.parentId;
         const comment = await newComment.save();
         response.status(200).json(comment) ;
     } catch (error) {
@@ -15,10 +22,10 @@ router.post("/comment", async (request, response) => {
     }
 });
 
-router.get("/comments", async (request, response) => {
+router.get("/comments/:id", async (request, response) => {
 
     try { 
-        const comments = await Comment.find({});
+        const comments = await Comment.find({postId : request.params.id});
         response.status(200).json(comments) ;
     } catch (error) {
         console.log(error);
